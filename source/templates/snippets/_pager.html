@@ -1,0 +1,11 @@
+{% if is_paginated %}
+<ul class="pager">
+    <li class="previous {% if not page_obj.has_previous %}disabled{% endif %}">
+        <a {% if page_obj.has_previous %}href="javascript:changePage({{ page_obj.previous_page_number }})"{% endif %}>&larr; Anterior</a>
+    </li>
+    <li>Página {{ page_obj.number }} de {{ paginator.num_pages }}</li>
+    <li class="next {% if not page_obj.has_next %}disabled{% endif %}">
+        <a {% if page_obj.has_next %}href="javascript:changePage({{ page_obj.next_page_number }})"{% endif %}>Siguiente &rarr;</a>
+    </li>
+</ul>
+{% endif %}

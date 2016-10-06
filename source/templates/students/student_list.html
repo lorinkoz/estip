@@ -1,0 +1,100 @@
+{% extends "base_backend.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+<style>
+    .actions { opacity: 0; transition: all .2s ease; }
+    tr:hover .actions { opacity: 1; }
+</style>
+<div class="page-header">
+    <h2>
+        {{ headline }}
+        <a class="btn btn-success pull-right" href="{% url 'student_create' %}?volver={{ request.get_full_path|urlencode }}">Nuevo estudiante</a>
+    </h2>
+    <div class="pull-left">
+        <a href="{% url 'student_list' %}">Todos</a>
+        | <a href="{% url 'active_student_list' %}">Activos</a>
+        | <a href="{% url 'inactive_student_list' %}">Inactivos</a>
+        | <a href="{% url 'unruled_student_list' %}">Sin reglas de pago</a>
+        {% if filter_form.is_filtered %}
+        | <a href="{{ request.path }}">Borrar todos los filtros</a>
+        {% endif %}
+    </div>
+    <div class="row">
+        <form id="filter" class="col-md-4 pull-right">
+            <input type="hidden" name="p" />
+            <div class="input-group">
+                <input type="text" class="form-control" name="q" value="{{ request.GET.q }}" placeholder="Buscar estudiantes" />
+                <span class="input-group-btn">
+                    <button class="btn btn-{% if filter_form.is_filtered > 2 %}info{% elif filter_form.is_filtered and not request.GET.q %}info{% else %}default{% endif %}" type="button" data-toggle="modal" data-target="#filter-modal">Más</button>
+                </span>
+            </div>
+            <div class="modal" id="filter-modal">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Búsqueda avanzada</h4>
+                        </div>
+                        <div class="modal-body">
+                            {{ filter_form.sp|as_crispy_field }}
+                            {{ filter_form.yr|as_crispy_field }}
+                            {{ filter_form.ty|as_crispy_field }}
+                            {{ filter_form.rl|as_crispy_field }}
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" type="submit">Filtrar estudiantes</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th class="col-md-1">Código</th>
+            <th class="col-md-5">Nombre y apellidos</th>
+            <th class="col-md-1">Sexo</th>
+            <th class="col-md-2">Tipo</th>
+            <th class="col-md-3">Estatus</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for student in object_list %}
+        <tr id="{{ student.html_id }}">
+            <td>{{ student.sid }}</td>
+            <td>
+                {{ student.full_name }}<br/>
+                <small class="actions">
+                    <a href="{% url 'student_update' student.sid %}?volver={{ request.get_full_path|add:'#'|add:student.html_id|urlencode }}">Editar</a>
+                    <a href="{% url 'student_delete' student.sid %}?volver={{ request.get_full_path|add:'#'|add:student.html_id|urlencode }}">Eliminar</a>
+                    {% if student.status %}
+                    <a href="{% url 'student_deactivate' student.sid %}?volver={{ request.get_full_path|add:'#'|add:student.html_id|urlencode }}">Desactivar</a>
+                    {% else %}
+                    <a href="{% url 'student_activate' student.sid %}?volver={{ request.get_full_path|add:'#'|add:student.html_id|urlencode }}">Activar</a>
+                    {% endif %}
+                </small>
+            </td>
+            <td>{{ student.gender|upper }}</td>
+            <td>{{ student.status.student_type|default:"" }}</td>
+            <td>
+            {% if student.status %}
+                {{ student.status.get_year_display }} de {{ student.status.specialty }}<br/>
+                <small>Facultad de {{ student.status.specialty.faculty }}</small>
+            {% else %}
+                Inactivo
+            {% endif %}
+            </td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="5">No hay estudiantes para mostrar.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% include "snippets/_pager.html" %}
+{% endblock content %}

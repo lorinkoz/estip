@@ -1,0 +1,69 @@
+{% extends "base_backend.html" %}
+
+{% block content %}
+<div class="page-header">
+	<h1>
+		{% now "F j, Y" %} &dash; <span id="hours"></span>:<span id="minutes"></span><small>.<span id="seconds"></span></small><br/>
+		<small>{{ request.user.get_full_name }}</small>
+	</h1>
+</div>
+<div class="row">
+	<div class="col-md-3">
+		<div class="panel panel-default">
+			<div class="panel-heading text-uppercase"><small>Accesos directos</small></div>
+			<ul class="list-group">
+				{% if current_payment %}
+				<li class="list-group-item">
+					<a href="{% url 'payment_details' current_payment.slug %}">Pago actual</a>
+				</li>
+				{% else %}
+				<li class="list-group-item">
+					<a href="{% url 'payment_create' %}">Inicializar pago</a>
+				</li>
+				{% endif %}
+				<li class="list-group-item">
+					<a href="{% url 'payment_list' %}">Histórico de pagos</a>
+				</li>
+				{% if unruled_students %}
+				<li class="list-group-item">
+					<a href="{% url 'unruled_student_list' %}">Estudiantes sin reglas de pago</a>
+					<label class="badge">{{ unruled_students }}</label>
+				</li>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script type="text/javascript">
+	var hours = {% now "G" %};
+	var minutes = {% now "i" %};
+	var seconds = {% now "s" %};
+	
+	function tick() {
+		seconds++;
+		if (seconds == 60) {
+			seconds = 0;
+			minutes++;
+		}
+		if (minutes == 60) {
+			minutes = 0;
+			hours++;
+		}
+		if (hours == 24) {
+			hours = 0;
+			location.href = "{{ request.get_full_path }}";
+		}
+		$("#hours").html(hours);
+		$("#minutes").html(minutes < 10 ? "0" + minutes.toString() : minutes);
+		$("#seconds").html(seconds < 10 ? "0" + seconds.toString() : seconds);
+		window.setTimeout(tick, 1000);
+	}
+
+	$(function(){
+		tick();
+	});
+</script>
+{% endblock scripts %}

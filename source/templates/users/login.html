@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+
+{% block precontent %}
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url 'sorter' %}">{{ BRAND_SHORT }}</a>
+        </div>
+    </div>
+</nav>
+{% endblock precontent %}
+
+{% block content %}
+<div class="page-header">
+    <h2>{{ headline }}</h2>
+</div>
+<form method="post" class="col-md-4">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <hr/>
+    <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+</form>
+{% endblock content %}

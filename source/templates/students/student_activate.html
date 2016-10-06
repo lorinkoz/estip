@@ -1,0 +1,45 @@
+{% extends "base_backend.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+<div class="page-header">
+    <h2>{{ headline }}</h2>
+</div>
+{% url 'student_list' as backurl %}
+<form method="post">
+    {% csrf_token %}
+    {{ form|as_crispy_errors }}
+	<div class="row">
+	    <div class="col-md-2">{{ form.year|as_crispy_field }}</div>
+	    <div class="col-md-4">{{ form.specialty|as_crispy_field }}</div>
+	    <div class="col-md-3">{{ form.student_type|as_crispy_field }}</div>
+	</div>
+    <hr/>
+	<div class="row">
+	    <div class="col-md-6">
+    		<label class="control-label" >{{ form.rules.label }}</label>
+    		{{ form.rules }}
+	    </div>
+	</div>
+    <hr/>
+    <button type="submit" class="btn btn-primary">Activar estudiante</button>
+    <a href="{{ request.GET.volver|default:backurl }}" class="btn btn-default">Cancelar</a>
+</form>
+{% endblock content %}
+
+{% block styles %}
+<style>
+	.partition-table { width: 100%; }
+	.partition-table td.partitioner { padding: .5em 1em; }
+	.partition-table td.choices { padding: .5em; }
+</style>
+{% endblock styles %}
+
+{% block scripts %}
+<script type="text/javascript">
+	$(function(){
+		$(".partition-table").addClass('table-striped');
+		$(".choices", ".partition-table").addClass('col-md-8');
+	});
+</script>
+{% endblock scripts %}

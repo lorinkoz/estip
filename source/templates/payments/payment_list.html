@@ -1,0 +1,65 @@
+{% extends "base_backend.html" %}
+
+{% block content %}
+<style>
+    .actions { opacity: 0; transition: all .2s ease; }
+    tr:hover .actions { opacity: 1; }
+</style>
+<div class="page-header">
+    <h2>
+        {{ headline }}
+        {% if current_payment %}
+            <a class="btn btn-default pull-right" href="{% url 'payment_details' current_payment.slug %}">Ver pago actual</a>
+        {% else %}
+            <a class="btn btn-success pull-right" href="{% url 'payment_create' %}?volver={{ request.get_full_path|urlencode }}">Inicializar pago</a>
+        {% endif %}
+    </h2>
+    <div class="pull-left">
+        {% if request.GET.q %}
+        <a href="{{ request.path }}">Borrar todos los filtros</a>
+        {% endif %}
+    </div>
+    <div class="row">
+        <form id="filter" class="col-md-4 pull-right">
+            <input type="text" class="form-control" name="q" value="{{ request.GET.q }}" placeholder="Buscar pagos" />
+            <input type="hidden" name="p" />
+        </form>
+    </div>
+</div>
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th class="col-md-8">Pago</th>
+            <th class="col-md-2">Apertura</th>
+            <th class="col-md-2">Cierre</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for payment in object_list %}
+        <tr id="{{ payment.html_id }}" {% if not payment.is_closed %}class="success"{% endif %}>
+            <td>
+                <a href="{% url 'payment_details' payment.slug %}">{{ payment.name }}</a><br/>
+                <small>{{ payment.description }}</small><br/>
+            </td>
+            <td>
+                {{ payment.date_created|date }}<br/>
+                {{ payment.date_created|time }}
+            </td>
+            <td>
+            {% if payment.is_closed %}
+                {{ payment.date_closed|date }}<br/>
+                {{ payment.date_closed|time }}
+            {% else %}
+                <b>Abierto</b>
+            {% endif %}
+            </td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="3">No hay pagos para mostrar.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% include "snippets/_pager.html" %}
+{% endblock content %}

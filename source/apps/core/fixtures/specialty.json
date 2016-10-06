@@ -1,0 +1,156 @@
+[
+{
+    "fields": {
+        "faculty": [
+            "informatica-y-matematica"
+        ],
+        "name": "Matem\u00e1tica",
+        "structure": "1:4",
+        "slug": "matematica"
+    },
+    "model": "core.specialty"
+},
+{
+    "fields": {
+        "faculty": [
+            "informatica-y-matematica"
+        ],
+        "name": "Inform\u00e1tica",
+        "structure": "1:5",
+        "slug": "informatica"
+    },
+    "model": "core.specialty"
+},
+{
+    "fields": {
+        "faculty": [
+            "ingenieria-industrial"
+        ],
+        "name": "Turismo",
+        "structure": "1:5",
+        "slug": "turismo"
+    },
+    "model": "core.specialty"
+},
+{
+    "fields": {
+        "faculty": [
+            "humanidades"
+        ],
+        "name": "Historia",
+        "structure": "1:5",
+        "slug": "historia"
+    },
+    "model": "core.specialty"
+},
+{
+    "fields": {
+        "faculty": [
+            "ciencias-agropecuarias"
+        ],
+        "name": "Agronom\u00eda",
+        "structure": "1:5",
+        "slug": "agronomia"
+    },
+    "model": "core.specialty"
+},
+{
+    "fields": {
+        "faculty": [
+            "ingenieria-industrial"
+        ],
+        "name": "Industrial",
+        "structure": "1:5",
+        "slug": "industrial"
+    },
+    "model": "core.specialty"
+},
+{
+    "fields": {
+        "faculty": [
+            "humanidades"
+        ],
+        "name": "Lengua Inglesa",
+        "structure": "0:5",
+        "slug": "lengua-inglesa"
+    },
+    "model": "core.specialty"
+},
+{
+    "fields": {
+        "faculty": [
+            "humanidades"
+        ],
+        "name": "Derecho",
+        "structure": "1:5",
+        "slug": "derecho"
+    },
+    "model": "core.specialty"
+},
+{
+    "fields": {
+        "faculty": [
+            "ingenieria"
+        ],
+        "name": "Civil",
+        "structure": "1:5",
+        "slug": "civil"
+    },
+    "model": "core.specialty"
+},
+{
+    "fields": {
+        "faculty": [
+            "economia"
+        ],
+        "name": "Econom\u00eda",
+        "structure": "1:5",
+        "slug": "economia"
+    },
+    "model": "core.specialty"
+},
+{
+    "fields": {
+        "faculty": [
+            "economia"
+        ],
+        "name": "Contabilidad",
+        "structure": "1:5",
+        "slug": "contabilidad"
+    },
+    "model": "core.specialty"
+},
+{
+    "fields": {
+        "faculty": [
+            "humanidades"
+        ],
+        "name": "Estudios Socioculturales",
+        "structure": "1:5",
+        "slug": "estudios-socioculturales"
+    },
+    "model": "core.specialty"
+},
+{
+    "fields": {
+        "faculty": [
+            "ingenieria"
+        ],
+        "name": "Mec\u00e1nica",
+        "structure": "1:5",
+        "slug": "mecanica"
+    },
+    "model": "core.specialty"
+},
+{
+    "fields": {
+        "faculty": [
+            "humanidades"
+        ],
+        "name": "Periodismo",
+        "structure": "1:5",
+        "slug": "periodismo"
+    },
+    "model": "core.specialty"
+}
+]

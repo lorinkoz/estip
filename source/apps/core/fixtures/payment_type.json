@@ -1,0 +1,57 @@
+[
+{
+    "fields": {
+        "name": "Estipendio",
+        "ordering": 2,
+        "allow_rules": true,
+        "alias": "",
+        "regularity": 1,
+        "slug": "estipendio"
+    },
+    "model": "core.paymenttype"
+},
+{
+    "fields": {
+        "name": "Ayudant\u00eda",
+        "ordering": 4,
+        "allow_rules": true,
+        "alias": "AYUD",
+        "regularity": 1,
+        "slug": "ayudantia"
+    },
+    "model": "core.paymenttype"
+},
+{
+    "fields": {
+        "name": "Pr\u00e9stamo",
+        "ordering": 5,
+        "allow_rules": true,
+        "alias": "",
+        "regularity": 1,
+        "slug": "prestamo"
+    },
+    "model": "core.paymenttype"
+},
+{
+    "fields": {
+        "name": "Pr\u00e1cticas laborales",
+        "ordering": 6,
+        "allow_rules": true,
+        "alias": "",
+        "regularity": 0,
+        "slug": "practicas-laborales"
+    },
+    "model": "core.paymenttype"
+},
+{
+    "fields": {
+        "name": "Atraso",
+        "ordering": 10,
+        "allow_rules": false,
+        "alias": "",
+        "regularity": 0,
+        "slug": "atraso"
+    },
+    "model": "core.paymenttype"
+}
+]

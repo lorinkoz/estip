@@ -1,0 +1,24 @@
+{% extends "base_backend.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+<div class="page-header">
+    <h2>{{ headline }}</h2>
+</div>
+{% url 'payment_details' object.slug as backurl %}
+{% if object.rows.count %}
+<p class="alert alert-warning">¡Advertencia! Todos los registros calculados para este pago hace {{ object.date_generated|timesince }} se perderán.</p>
+{% endif %}
+<br/>
+<form method="post">
+    {% csrf_token %}
+    <div class="row">
+	    <div class="col-md-5">
+	    	<table class="table">{{ form.as_table }}</table>
+	   	</div>
+	</div>
+    <hr/>
+    <button type="submit" class="btn btn-primary">Calcular pago</button>
+    <a href="{{ request.GET.volver|default:backurl }}" class="btn btn-default">Cancelar</a>
+</form>
+{% endblock content %}

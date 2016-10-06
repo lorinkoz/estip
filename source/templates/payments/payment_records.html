@@ -1,0 +1,42 @@
+{% extends "base_backend.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+<div class="page-header">
+    <h2>
+    	{{ headline }}<br/>
+    	<small>{{ student }} / {{ payment }}</small>
+    </h2>
+</div>
+{% url 'payment_details' payment.slug as backurl %}
+<form method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-3">{{ form|crispy }}</div>
+	    <div class="col-md-5 col-md-push-1">
+            <h4>
+                Reglas de pago actuales
+                {% if student.status %}<br/><small>{{ student.status.get_year_display }} de {{ student.status.specialty }}</small>{% endif %}
+            </h4>
+            {% if student.status %}
+            <table class="table table-striped table-bordered">
+            {% for rule in student.status.rules.all %}
+                <tr>
+                    <td>{{ rule }}</td>
+                    <td>{{ rule.amount }}</td>
+                </td>
+            {% empty %}
+                <tr><td colspan="2">No hay reglas de pago asociadas.</td></tr>
+            {% endfor %}
+            </table>
+            <a href="{% url 'student_update' student.sid %}?volver={{ request.get_full_path|urlencode }}">Editar reglas de pago</a>
+            {% else %}
+            <span class="label label-warning">Advertencia:</span> Este estudiante está inactivo. Esto solo es posible si el mismo fue desactivado antes de cerrar el pago actual. Puede que necesite recalcular este pago.
+            {% endif %}
+        </div>
+	</div>
+    <hr/>
+    <button type="submit" class="btn btn-primary">Guardar detalles de pago</button>
+    <a href="{{ request.GET.volver|default:backurl }}" class="btn btn-default">Cancelar</a>
+</form>
+{% endblock content %}

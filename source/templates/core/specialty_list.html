@@ -1,0 +1,55 @@
+{% extends "base_backend.html" %}
+
+{% block content %}
+<style>
+    .actions { opacity: 0; transition: all .2s ease; }
+    tr:hover .actions { opacity: 1; }
+</style>
+<div class="page-header">
+    <h2>
+        {{ headline }}
+        <a class="btn btn-success pull-right" href="{% url 'specialty_create' %}?volver={{ request.get_full_path|urlencode }}">Nueva especialidad</a>
+    </h2>
+    <div class="pull-left">
+        {% if request.GET.q %}
+        <a href="{{ request.path }}">Borrar todos los filtros</a>
+        {% endif %}
+    </div>
+    <div class="row">
+        <form id="filter" class="col-md-4 pull-right">
+            <input type="text" class="form-control" name="q" value="{{ request.GET.q }}" placeholder="Buscar especialidades" />
+            <input type="hidden" name="p" />
+        </form>
+    </div>
+</div>
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th class="col-md-8">Nombre</th>
+            <th class="col-md-4">Facultad</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for specialty in object_list %}
+        <tr id="{{ specialty.html_id }}">
+            <td>
+                {{ specialty.name }}<br/>
+                <small class="actions">
+                    <a href="{% url 'specialty_update' specialty.slug %}?volver={{ request.get_full_path|add:'#'|add:specialty.html_id|urlencode }}">Editar</a>
+                    <a href="{% url 'specialty_delete' specialty.slug %}?volver={{ request.get_full_path|add:'#'|add:specialty.html_id|urlencode }}">Eliminar</a>
+                </small>
+            </td>
+            <td>
+                {{ specialty.faculty }}<br/>
+                <small>{{ specialty.get_structure_display }}</small>
+            </td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="2">No hay especialidades para mostrar.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% include "snippets/_pager.html" %}
+{% endblock content %}

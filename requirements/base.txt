@@ -1,0 +1,7 @@
+django
+psycopg2
+django-braces
+django-crispy-forms
+django-solo
+pillow
+reportlab

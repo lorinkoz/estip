@@ -1,0 +1,23 @@
+[
+{
+    "fields": {
+        "name": "Interno",
+        "slug": "interno"
+    },
+    "model": "core.studenttype"
+},
+{
+    "fields": {
+        "name": "Externo",
+        "slug": "externo"
+    },
+    "model": "core.studenttype"
+},
+{
+    "fields": {
+        "name": "Extranjero",
+        "slug": "extranjero"
+    },
+    "model": "core.studenttype"
+}
+]

@@ -1,0 +1,44 @@
+[
+{
+    "fields": {
+        "name": "Inform\u00e1tica y Matem\u00e1tica",
+        "slug": "informatica-y-matematica"
+    },
+    "model": "core.faculty"
+},
+{
+    "fields": {
+        "name": "Ingenier\u00eda Industrial",
+        "slug": "ingenieria-industrial"
+    },
+    "model": "core.faculty"
+},
+{
+    "fields": {
+        "name": "Humanidades",
+        "slug": "humanidades"
+    },
+    "model": "core.faculty"
+},
+{
+    "fields": {
+        "name": "Ciencias Agropecuarias",
+        "slug": "ciencias-agropecuarias"
+    },
+    "model": "core.faculty"
+},
+{
+    "fields": {
+        "name": "Ingenier\u00eda",
+        "slug": "ingenieria"
+    },
+    "model": "core.faculty"
+},
+{
+    "fields": {
+        "name": "Econom\u00eda",
+        "slug": "economia"
+    },
+    "model": "core.faculty"
+}
+]

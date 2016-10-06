@@ -1,0 +1,11 @@
+{% extends base_template %}
+
+{% block content %}
+<div class="page-header">
+    <h2>
+    	{{ headline }}<br/>
+    	<small>{{ request.user.get_role_display }}</small>
+    </h2>
+</div>
+<a href="mailto:{{ request.user.email }}">{{ request.user.email }}</a>
+{% endblock content %}

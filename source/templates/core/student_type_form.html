@@ -1,0 +1,18 @@
+{% extends "base_backend.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+<div class="page-header">
+    <h2>{{ headline }}</h2>
+</div>
+{% url 'student_type_list' as backurl %}
+<form method="post">
+    {% csrf_token %}
+    <div class="row">
+	    <div class="col-md-5">{{ form|crispy }}</div>
+	</div>
+    <hr/>
+    <button type="submit" class="btn btn-primary">Guardar tipo de estudiante</button>
+    <a href="{{ request.GET.volver|default:backurl }}" class="btn btn-default">Cancelar</a>
+</form>
+{% endblock content %}

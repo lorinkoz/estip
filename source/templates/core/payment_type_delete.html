@@ -1,0 +1,16 @@
+{% extends "base_backend.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h2>{{ headline }}</h2>
+</div>
+{% url 'payment_type_list' as backurl %}
+<p>Está a punto de eliminar un tipo de pago. ¿Desea continuar?</p>
+<p class="alert alert-danger">¡Advertencia! Todas las reglas de pago asociadas serán eliminadas también.</p>
+<form method="post">
+    {% csrf_token %}
+    <hr/>
+    <button type="submit" class="btn btn-danger">Eliminar tipo de pago</button>
+    <a href="{{ request.GET.volver|default:backurl }}" class="btn btn-default">Cancelar</a>
+</form>
+{% endblock content %}

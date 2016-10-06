@@ -1,0 +1,3 @@
+[run]
+omit=settings\*,*\tests\*,*\migrations\*,*\__init__.py,*\admin.py,*manage.py,*\urls.py
+source=.

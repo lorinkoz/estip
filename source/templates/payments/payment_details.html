@@ -1,0 +1,90 @@
+{% extends "base_backend.html" %}
+{% load static %}
+
+{% block content %}
+<div class="page-header">
+    <h2>{{ headline }}</h2>
+</div>
+{% url 'payment_list' as backurl %}
+<div class="row">
+	<div class="col-md-10">
+		<div class="row">
+			<div class="col-md-5">
+				<p>
+					{% if object.is_pristine %}Este pago no ha sido calculado.
+					{% elif object.is_ready or object.is_closed %}Calculado hace {{ object.date_generated|timesince }} ({{ object.date_generated|date }})
+					{% else %}
+						<img src="{% static 'img/loading.gif' %}" /> {{ object.get_status_display }}
+						<small>(esta página se recargará en breve)</small>
+					{% endif %}
+					{% if object.is_closed %}<br/>Cerrado hace {{ object.date_closed|timesince }} ({{ object.date_closed|date }}){% endif %}
+					{% if object.rows.count and not object.in_process %}
+					<form id="filter">
+			            <input type="text" class="form-control" name="q" value="{{ request.GET.q }}" placeholder="Verificar estudiantes" />
+			        </form>
+			        {% endif %}
+				</p>
+			</div>
+			<div class="col-md-5 col-md-push-2">
+				<table class="table table-bordered table-striped">
+					<tr><td>Estudiantes</td><td class="text-right">{{ object.rows.count|default:"?" }}</td></tr>
+					<tr><td>Saldo total</td><td class="text-right">{{ total_amount|floatformat:2|default:"?" }}</td></tr>
+				</table>
+			</div>
+		</div>
+	    {% if request.GET.q %}
+	    {% if object.is_ready or object.is_closed %}
+		<table class="table table-striped table-bordered" style="margin-top:1em">
+			<thead>
+				<th colspan="2">Estudiante</th>
+				{% for header in headers %}<th class="col-md-1 text-right">{{ header.get_alias|title }}.</th>{% endfor %}
+				<th class="col-md-1 text-right">Total</th>
+			</thead>
+			<tbody>
+				{% for row in data %}
+				<tr>
+					<td class="col-md-1">{{ row.student.sid }}</td>
+					<td>
+						{% if object.is_closed %}
+						{{ row.student }}
+						{% else %}
+						<a href="{% url 'payment_records' payment.slug row.student.sid %}?volver={{ request.get_full_path|urlencode }}">{{ row.student }}</a>
+						{% endif %}
+					</td>
+					{% for cell in row.payments %}<td class="text-right">{{ cell|floatformat:2 }}</td>{% endfor %}
+					<td class="text-right">{{ row.total|floatformat:2 }}</td>
+				</tr>
+				{% empty %}
+				<tr><td colspan="{{ headers|length|default:0|add:3 }}">No hay registros que mostrar.</td></tr>
+				{% endfor %}
+				{% if data|length == 10 %}
+				<tr><td colspan="{{ headers|length|default:0|add:3 }}"><small>Se muestran solo los 10 primeros resultados coincidentes.</small></td></tr>
+				{% endif %}
+			</tbody>
+		</table>
+		{% endif %}
+		{% endif %}
+	</div>
+	<div class="col-md-2">
+		<a class="btn btn-default btn-block" href="{% url 'payment_update' object.slug %}?volver={{ request.get_full_path|urlencode }}">Editar</a>
+		<a class="btn btn-success btn-block {% if not object.is_ready and not object.is_closed %}disabled{% endif %}" target="_window" href="{% url 'payment_print' object.slug %}">Nómina</a>
+		{% if not object.is_closed %}
+		<a class="btn btn-warning btn-block {% if not object.can_close %}disabled{% endif %}" href="{% url 'payment_close' object.slug %}?volver={{ request.get_full_path|urlencode }}">Cerrar</a>
+		<a class="btn btn-warning btn-block {% if not object.can_generate %}disabled{% endif %}" href="{% url 'payment_generate' object.slug %}?volver={{ request.get_full_path|urlencode }}">
+			{% if object.status != 0 %}Recalcular{% else %}Calcular{% endif %}
+		</a>
+		{% endif %}
+		<a class="btn btn-danger btn-block {% if not object.can_delete %}disabled{% endif %}" href="{% url 'payment_delete' object.slug %}?volver={{ request.get_full_path|urlencode }}">Eliminar</a>
+	</div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+{% if object.in_process %}
+<script type="text/javascript">
+	$(function(){
+		setTimeout(function(){ location.href="{{ request.get_full_path }}" }, 5000);
+	});
+</script>
+{% endif %}
+{% endblock scripts %}

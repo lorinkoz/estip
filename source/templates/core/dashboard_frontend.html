@@ -1,0 +1,33 @@
+{% extends "base_frontend.html" %}
+
+{% block content %}
+<div class="page-header">
+	<h1>
+		{{ BRAND_SHORT }}<br/>
+		<small>{{ request.user.get_full_name }}</small>
+	</h1>
+</div>
+<div>
+	<table class="table table-striped table-bordered">
+		<thead>
+			<th>Pago</th>
+			{% for header in headers %}<th class="col-md-1 text-right">{{ header.get_alias|title }}.</th>{% endfor %}
+			<th class="col-md-1 text-right">Total</th>
+		</thead>
+		<tbody>
+			{% for row in data %}
+			<tr>
+				<td>
+					{{ row.payment }}
+					<small>({{ row.payment.date_closed|date }})</small>
+				</td>
+				{% for cell in row.payments %}<td class="text-right">{{ cell|floatformat:2 }}</td>{% endfor %}
+				<td class="text-right">{{ row.total|floatformat:2 }}</td>
+			</tr>
+			{% empty %}
+			<tr><td colspan="{{ headers|length|default:0|add:3 }}">No hay registros que mostrar.</td></tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock content %}

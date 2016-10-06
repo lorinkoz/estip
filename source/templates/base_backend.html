@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block precontent %}
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#backend-navbar">
+                <span class="sr-only">Cambiar navegación</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'backend_dashboard' %}">{{ BRAND_SHORT }}</a>
+        </div>
+        <div class="collapse navbar-collapse" id="backend-navbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Catálogos</a>
+                    <ul class="dropdown-menu" role="menu">
+                        {% if request.user.is_superuser %}
+                        <li><a href="{% url 'school_details' %}">Universidad</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'faculty_list' %}">Facultades</a></li>
+                        <li><a href="{% url 'specialty_list' %}">Especialidades</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{% url 'student_type_list' %}">Tipos de estudiante</a></li>
+                        <li><a href="{% url 'payment_type_list' %}">Tipos de pago</a></li>
+                        <li><a href="{% url 'payment_rule_list' %}">Reglas de pago</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Estudiantes</a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{% url 'student_list' %}">Todos los estudiantes</a></li>
+                        <li><a href="{% url 'active_student_list' %}">Estudiantes activos</a></li>
+                        <li><a href="{% url 'inactive_student_list' %}">Estudiantes inactivos</a></li>
+                        <li><a href="{% url 'unruled_student_list' %}">Estudiantes sin reglas de pago</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{% url 'student_promote' %}">Promover estudiantes</a></li>
+                        <li><a href="{% url 'student_rules_transform' %}">Transformar reglas de pago</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pagos</a>
+                    <ul class="dropdown-menu" role="menu">
+                        {% if current_payment %}
+                        <li><a href="{% url 'payment_details' current_payment.slug %}">Pago actual</a></li>
+                        {% else %}
+                        <li><a href="{% url 'payment_create' %}">Inicializar pago</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'payment_list' %}">Histórico de pagos</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuario</a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{% url 'operator_profile' %}">Perfil de usuario</a></li>
+                        {% if request.user.is_superuser %}
+                        <li><a href="{% url 'admin:index' %}">Administración interna</a></li>
+                        {% endif %}
+                        <li class="divider"></li>
+                        <form method="post" id="logout-form" action="{% url 'user_logout' %}">{% csrf_token %}</form>
+                        <li><a href="javascript:void(0)" onclick="$('#logout-form').submit()">Cerrar sesión</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock precontent %}
